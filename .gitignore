@@ -30,3 +30,24 @@
 *.exe
 *.out
 *.app
+
+# Input/Test Files
+public/
+
+# Build
+build/
+
+# Problem descriptions
+*.pdf
+
+# Metadata
+*.json
+
+# Algolab VS
+*.algolabVS
+
+# VS Code
+.vscode
+
+# Debug stuff
+debug*
