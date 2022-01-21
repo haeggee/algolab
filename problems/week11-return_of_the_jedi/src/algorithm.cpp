@@ -81,7 +81,7 @@ void testcase()
   // compute max edge on pairwise paths in MST with DFS
   std::vector<std::vector<int>> max_e_betw(n, std::vector<int>(n, 0));
   for(int i = 0; i < n; i++) {
-      std::stack<std::pair<int,int>> Q;
+      std::stack<std::pair<int,int>> Q; // pair of (node, max edge on path form i to node)
       Q.push({i,0});
       std::vector<bool> visited(n, false);
       while(!Q.empty()) {
@@ -91,7 +91,6 @@ void testcase()
         if(!visited[j]) {
           visited[j] = true;
           max_e_betw[i][j] = c;
-          max_e_betw[j][i] = c;
           for(auto k : mst_edges[j]) Q.push({k, std::max(c, edge_in_mst[j][k])});
         }
       }
