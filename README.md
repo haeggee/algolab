@@ -1,5 +1,5 @@
 # Algolab 2021
-My code for the problems given in the ETH course [Algorithms Lab in Fall 2021](https://www.cadmo.ethz.ch/education/lectures/HS21/algolab/index.html). Problems descriptions and testcases not included. I did not put as much effort into this as [this guy](https://github.com/simon-hrabec/algolab-2020) did, but I took some inspiration :)
+My code for the problems given in the ETH course [Algorithms Lab in Fall 2021](https://www.cadmo.ethz.ch/education/lectures/HS21/algolab/index.html). Problems descriptions and testcases not included. I did not put as much effort into this as [this guy](https://github.com/simon-hrabec/algolab-2020) did, but I took some inspiration :) Also credits to the creators of the [algolabVS.sh](algolabVS.sh) with which this stuff was done (+ Code Expert).
 
 
 ## Problems sorted by weeks
