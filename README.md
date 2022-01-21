@@ -1,5 +1,5 @@
 # Algolab 2021
-My code for the problems given in the ETH course [Algorithms Lab in Fall 2021](https://www.cadmo.ethz.ch/education/lectures/HS20/algolab/index.html). Problems descriptions and testcases not included. I did not put as much effort into this as [this guy](https://github.com/simon-hrabec/algolab-2020) did, but I took some inspiration :)
+My code for the problems given in the ETH course [Algorithms Lab in Fall 2021](https://www.cadmo.ethz.ch/education/lectures/HS21/algolab/index.html). Problems descriptions and testcases not included. I did not put as much effort into this as [this guy](https://github.com/simon-hrabec/algolab-2020) did, but I took some inspiration :)
 
 
 ## Problems sorted by weeks
@@ -25,28 +25,30 @@ My code for the problems given in the ETH course [Algorithms Lab in Fall 2021](h
 # 
 # 
 
-## Featured solutions - ordered by technique/algorithm/data structure
-| Technique, Data structure, algorithm        | Problems                                                                                                                                  |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| BFS                                         |                                                                                                                                           |
-| Biconnected Components                      |                                                                                                                                           |
-| Binary Search                               |                                                                                                                                           |
-| CGAL Geometry                               |                                                                                                                                           |
-| CGAL::Gmpq/Gmpz (Arbitrary Precision Types) |                                                                                                                                           |
-| DFS                                         | [Return of the Jedi](problems/week11-return_of_the_jedi)                                                                                  |
-| Delaunay Triangulation                      | [Idefix](problems/week11-idefix/), [GoldenEye](problems/week10-potw-goldeneye/)                                                           |
-| Dijkstra                                    |                                                                                                                                           |
-| Dynamic Programming                         |                                                                                                                                           |
-| Graph Duplication                           |                                                                                                                                           |
-| Greedy                                      |                                                                                                                                           |
-| Kruskal                                     | [Idefix](problems/week11-idefix/), [GoldenEye](problems/week10-potw-goldeneye/), [Return of the Jedi](problems/week11-return_of_the_jedi) |
-| Linear Programming                          |                                                                                                                                           |
-| Max-Flow-Min-Cost                           |                                                                                                                                           |
-| Maximum Flow                                |                                                                                                                                           |
-| Maximum Matching                            |                                                                                                                                           |
-| Minimum Spanning Tree                       | [Return of the Jedi](problems/week11-return_of_the_jedi)                                                                                  |
-| Prefix Sum                                  |                                                                                                                                           |
-| Randomization                               |                                                                                                                                           |
-| Sliding Window                              |                                                                                                                                           |
-| Split and List                              |                                                                                                                                           |
-| Union-Find                                  | [Idefix](problems/week11-idefix/), [GoldenEye](problems/week10-potw-goldeneye/)                                                           |
+## Categorizing solutions, techniques, properties and algorithms
+| Properties, Technique, Data Structure, Algorithm | Problems                                                                                                                                  |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| BFS                                              |                                                                                                                                           |
+| Biconnected Components                           |                                                                                                                                           |
+| Binary Search                                    |                                                                                                                                           |
+| CGAL Geometry                                    |                                                                                                                                           |
+| CGAL::Gmpq/Gmpz (Arbitrary Precision Types)      |                                                                                                                                           |
+| DFS                                              | [Asterix and the Chariot Race](problems/week10-asterix_and_the_chariot_race), [Return of the Jedi](problems/week11-return_of_the_jedi)    |
+| Delaunay Triangulation                           | [Idefix](problems/week11-idefix/), [GoldenEye](problems/week10-potw-goldeneye/)                                                           |
+| Dijkstra                                         |                                                                                                                                           |
+| Dynamic Programming                              |                                                                                                                                           |
+| Graph Duplication                                |                                                                                                                                           |
+| Greedy                                           |                                                                                                                                           |
+| Kruskal                                          | [Idefix](problems/week11-idefix/), [GoldenEye](problems/week10-potw-goldeneye/), [Return of the Jedi](problems/week11-return_of_the_jedi) |
+| Linear Programming                               |                                                                                                                                           |
+| Max-Flow-Min-Cost                                |                                                                                                                                           |
+| Maximum Flow                                     |                                                                                                                                           |
+| Maximum Matching                                 |                                                                                                                                           |
+| Minimum Spanning Tree                            | [Return of the Jedi](problems/week11-return_of_the_jedi)                                                                                  |
+| Prefix Sum                                       |                                                                                                                                           |
+| Randomization                                    |                                                                                                                                           |
+| Recursion                                        | [Asterix and the Chariot Race](problems/week10-asterix_and_the_chariot_race)                                                              |
+| Sliding Window                                   |                                                                                                                                           |
+| Split and List                                   |                                                                                                                                           |
+| Tree                                             | [Asterix and the Chariot Race](problems/week10-asterix_and_the_chariot_race)                                                              |
+| Union-Find                                       | [Idefix](problems/week11-idefix/), [GoldenEye](problems/week10-potw-goldeneye/)                                                           |
