@@ -11,4 +11,6 @@ Key idea:
     * else, set l = mid + 1
   * At the end, look for the maximum round stored for the participants, and print out those with same number
 
+Runtime: For each loop iteration, have a runtime of O(nlogn + mlogn) (triangulation + m queries for nearest vertex). The binary search is executed O(logn) times, hence overall we have O(logn * (nlogn + mlogn)).
+
 Note: Asymptotically, it does not make a difference to compute the triangulation between [0,mid] or [l,mid], but I got a timeout for the former one!
