@@ -1,4 +1,4 @@
-Tags: Delaunay Triangulation, DFS, BFS, Minimal Spanning Tree
+Tags: Delaunay Triangulation, DFS, BFS, Minimal Spanning Tree, Dijkstra (sort of)
 
 Key ideas:
  * For each route request, can consider:
