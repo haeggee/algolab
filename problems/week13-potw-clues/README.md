@@ -15,4 +15,5 @@ The problem boils down to 2 things: i) checking if an (implicit) graph is bipart
    * The forest of trees given by the Delaunay triangulation already has to be bipartite! Hence:
      * Check bipartiteness of the graph given by the Delaunay edges <= r and get the coloring white/black if true
      * Then: we can use the coloring found by BGL to split the points into two sets and create one triangulation for each color. Since the Delaunay triangulation again includes the closest neighbor for each point, we have that all edges must be larger than r! I.e. looping through all edges and breaking the loop for a violation suffices  
+   * To see why this guarantees and if and only if relation to the points being bipartite: The triangulation + EMST is guaranteed to find the connected components (since nearest neighbors <= r edges are added). For a connected component in a bipartite graph, _removing_ edges while staying connected cannot change the color assignments. But when we add edges (as in the case of the two additional triangulations), we can detect violations of bipartiteness
     
