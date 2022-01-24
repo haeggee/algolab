@@ -77,6 +77,7 @@ void testcase() {
     Q.push({(max + max) * (max + max), 0}); // infinite face has unlimited bottleneck
     
     // NOTE: differenc to H1N1 here, addind the radii to the queue
+    // --> the radius describes the max_distance to points
     for(size_t i = 1; i < num_faces; i++) {
         Q.push({radii[i], i}); 
     }
