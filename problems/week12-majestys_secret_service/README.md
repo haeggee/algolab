@@ -19,3 +19,4 @@ How to generalize to c=2?
   * Add a copy of the shelters to bipartite graph representing the 2nd slots
   * Connect agent with _copy_ of shelters if distance + 2 * d <= t
   * Compute matching as usual, see if it has cardinality a
+  * (Factually, the copies of shelters represent the first slot. Consider: an agent a1 is assigned to a shelter of the first set s1, and another agent a2 is assigned to the same shelter but in s2,and a1 has no edge to s2. Then we know that dist2+2*d <= dist1+d, i.e. dist2+d <= dist1. This then tells us that a1 will wait for a2 to finish, and then we add d to get the bottleneck waiting time)
