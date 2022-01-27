@@ -56,7 +56,7 @@ void testcase()
         m_pts[i] = {x, y, i};
     }
 
-    int n_constr = n;
+    int n_constr = 0;
     
     // constraints between new posters
     for (int i = 0; i < n; i++)
@@ -85,9 +85,7 @@ void testcase()
             ET b = std::max(ET(2 * diff_x, w) - 1, ET(2 * diff_y, h) - 1);
             min_constr = std::min(min_constr, b);
         }
-        lp.set_a(i, n_constr, 1);
-        lp.set_b(n_constr, min_constr);
-        n_constr++;
+        lp.set_u(i, true, min_constr);
     }
 
     
