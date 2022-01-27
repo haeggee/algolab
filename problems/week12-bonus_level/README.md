@@ -18,3 +18,5 @@ To get correct cost:
 * every path has exactly 2 * n - 1 positions, subtracting the start and end node gives 2 * n - 3
 * hence, we have 4 * n - 6 nodes on two paths from source to sink
 * This gives: (4 * n - 6) * 100 - cost1 + a_00 + a_n-1,n-1
+
+Note that there is also a DP solution possible, but I believe much more complicated and not as intuitive as the flow one.
