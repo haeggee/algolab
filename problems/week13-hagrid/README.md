@@ -8,7 +8,7 @@ Key ideas:
 
 Solution:
 * recurse with three values:
-  1. max number of gold one can collected in the subtree (neglecting any kind of offset at the beginning, i.e. only take into account traversal time inside subtree)
+  1. max number of gold one can collect in the subtree (neglecting any kind of offset at the beginning, i.e. only take into account traversal time inside subtree)
   2. number of nodes in subtree
   3. full traversal time
 * we can recursively solve, for each recursive solution add 2*l to traversal time (going to and back subtree/edge) and subtract the gold we loose: (#nodes in subtree * l)
