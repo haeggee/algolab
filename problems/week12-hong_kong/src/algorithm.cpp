@@ -55,7 +55,6 @@ void testcase() {
             int v = t.is_infinite(f2) ? 0 : f2->info();
             auto p1 = f->vertex((i + 1) % 3)->point();
             auto p2 = f->vertex((i + 2) % 3)->point();
-            // inputs are < 2^24, so double suffices
             K::FT dist = CGAL::squared_distance(p1, p2);
             edges[u].push_back({v, dist});
             if (v == 0) { // we do not loop over infinite faces, so add here
