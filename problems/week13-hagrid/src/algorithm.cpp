@@ -10,14 +10,13 @@ struct edge
 {
     int v;
     int l;
-    int traversal_time; // time it takes to go from u to all nodes under v and come back
 };
 
 struct result
 {
     long coins;
     long num_nodes;
-    long traversal_time;
+    long traversal_time; // time it takes to go from u to all nodes under v and come back
 };
 
 std::vector<result> dp;
@@ -74,7 +73,7 @@ void testcase()
     {
         int u, v, l;
         std::cin >> u >> v >> l;
-        edges[u].push_back({v, l, 0});
+        edges[u].push_back({v, l});
     }
 
     std::cout << solve(0, galleon, edges).coins << std::endl;

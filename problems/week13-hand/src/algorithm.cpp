@@ -35,8 +35,8 @@ int max_num_fam(std::vector<int> &comp_of_size, int k) {
         int remaining1 = comp_of_size[1] - match_three_one;
         // add remaining size 3 to 2
         int remaining2 = comp_of_size[2] + remaining3;
-        // if num2 is divisible by two, we can possibly combine
-        // the add the one leftover with the single
+        // if num2 is not divisible by two, we can possibly combine
+        // the one leftover with the single
         if(remaining2 % 2 == 1) remaining1 += 2;
         num += match_three_one + remaining2 / 2 + remaining1 / 4;
         

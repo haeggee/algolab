@@ -48,23 +48,22 @@ struct edge {
     int u;
     int v;
     int r;
-    bool predef;
 };
 
 void testcase() {
     int e, w, m, d, p, l;
     std::cin >> e >> w >> m >> d >> p >> l;
-    std::vector<std::vector<int>> nondiff(e, std::vector<int>(w, 0));
+    std::vector<edge> nondiff(m);
     for(int i = 0; i < m; i++) {
         int u, v, r;
         std::cin >> u >> v >> r;
-        nondiff[u][v] = r;
+        nondiff[i] = {u, v, r};
     }
     std::vector<edge> diff(d);
     for(int i = 0; i < d; i++) {
         int u, v, r;
         std::cin >> u >> v >> r;
-        diff[i] = {u, v, r, false};
+        diff[i] = {u, v, r};
     }
     int min_needed = std::max(e * l, w * l);
     if(min_needed > p) {
@@ -92,18 +91,19 @@ void testcase() {
         adder.add_edge(source_out_l, i, l, 0);
         adder.add_edge(source_out_rest, i, std::numeric_limits<long>::max(), 0);
         adder.add_edge(source_out_rest, e + w + i, std::numeric_limits<long>::max(), 0);
-        for(int j = 0; j < w; j++) {
-           if(nondiff[i][j] > 0) adder.add_edge(i, e + j, 1, nondiff[i][j]);
-        }
     }
+
     for(int i = 0; i < w; i++) {
         adder.add_edge(2 * e + w + i, sink_out_rest, std::numeric_limits<long>::max(), 0);
         adder.add_edge(e + i, sink_out_rest, std::numeric_limits<long>::max(), 0);
         adder.add_edge(e + i, sink_out_l, l, 0);
     }
-
+    
+    for(auto ed : nondiff) {  
+        adder.add_edge(ed.u, e + ed.v, 1, ed.r);
+    }
     // diff matches are in a copy of e + w, where the e and w edges are connected to
-    // the "out" source and sink nodes with capacity
+    // the "rest" source and sink nodes with capacity
     for(auto ed : diff) {
         adder.add_edge(e + w + ed.u, 2 * e + w + ed.v, 1, ed.r);
     }
@@ -111,9 +111,7 @@ void testcase() {
     adder.add_edge(source, source_out_rest, p - e * l, 0);
     adder.add_edge(sink_out_l, sink, w * l, 0);
     adder.add_edge(sink_out_rest, sink, p - w * l, 0);
-    ////////////////////////////////////////////////////////////////////////////////
-    // three mincost maxflow runs:
-    // first, to find the l matches for each team in e -> bottleneck at e
+
     boost::successive_shortest_path_nonnegative_weights(G, source, sink);
     int risk = boost::find_flow_cost(G);
     
