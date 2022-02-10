@@ -1,17 +1,14 @@
-///3
+// example: how to solve a simple explicit LP
 #include <CGAL/QP_models.h>
 #include <CGAL/QP_functions.h>
 #include <CGAL/Gmpz.h>
-#include <CGAL/Gmpq.h>
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 
-
-// for triangulation
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Delaunay_triangulation_2<K>  Triangulation;
 typedef Triangulation::Edge_iterator  Edge_iterator;
-
 
 // choose input type (input coefficients must fit)
 typedef long IT;
@@ -22,137 +19,136 @@ typedef CGAL::Gmpz ET;
 typedef CGAL::Quadratic_program<IT> Program;
 typedef CGAL::Quadratic_program_solution<ET> Solution;
 
-using namespace std;
+struct warehouse {
+  long x;
+  long y;
+  long s;
+  long a;
+};
 
+struct stadium {
+  long x;
+  long y;
+  long d;
+  long u;
+};
 
-long floor_to_int(const CGAL::Quotient<CGAL::Gmpq> & x)
+long floor_to_long(const CGAL::Quotient<CGAL::Gmpz>& x)
 {
- double a = std::floor(CGAL::to_double(x));
- while (a > x) a -= 1;
- while (a+1 <= x) a += 1;
- return a;
-}
-
-
-long ceil_to_int(const CGAL::Quotient<CGAL::Gmpq> & x)
-{
- double a = std::ceil(CGAL::to_double(x));
- while (a+1 >= x) a -= 1;
- while (a < x) a += 1;
- return a;
+  double a = std::floor(CGAL::to_double(x));
+  while (a > x) a -= 1;
+  while (a+1 <= x) a += 1;
+  return a;
 }
 
 void testcase()
 {
-  
-  // set the coefficients of A and b
-  Program lp;
   int n, m, c;
-  cin >> n; cin >> m; cin >> c;
-  // create an LP with Ax <= b, no lower bound and no upper bounds
-  lp = Program(CGAL::SMALLER, true, 0, false, 0);
+  std::cin >> n >> m >> c;
   
-  vector<K::Point_2> pts;
-  pts.reserve(n + m);
-  
-  vector<tuple<long,long,long,long>> warehouse(n);
-  vector<tuple<long,long,long,long>> stadium(m);
-  
+  // create an LP with Ax <= b, lower bound 0 and no upper bounds
+  Program lp(CGAL::SMALLER, true, 0, false, 0);
+
+  std::vector<warehouse> warehouses(n);
+  std::vector<stadium> stadiums(m);
+
+  std::vector<K::Point_2> points;
+  points.reserve(n+m);
   for(int i = 0; i < n; i++) {
     long x, y, s, a;
     std::cin >> x >> y >> s >> a;
-    warehouse[i] = {x,y,s,a};
-    
-    pts.push_back(K::Point_2(x,y));
-    // set up constraint \sum_s x_w,s <= s_w
+    warehouses[i] = {x, y, s, a};
+    points.push_back(K::Point_2(x,y));
     for(int j = 0; j < m; j++) {
+      // set upper constraints for supply, can't sell more in total
+      // sum_{j} delivery(w_i->stad_j) <= s_i
       lp.set_a(i * m + j, i, 1);
       lp.set_b(i, s);
     }
   }
   
   for(int j = 0; j < m; j++) {
-    long x, y, d, u;
+    int x, y; long d, u;
     std::cin >> x >> y >> d >> u;
-    stadium[j] = {x,y,d,u};
-    
-    pts.push_back(K::Point_2(x,y));
+    stadiums[j] = {x, y, d, u};
+    points.push_back(K::Point_2(x,y));
     for(int i = 0; i < n; i++) {
-      int a_w = std::get<3>(warehouse[i]);
-      // upper bound alcohol
-      lp.set_a(i * m + j, n + 3 * j, a_w);
-      lp.set_b(n + 3 * j, 100 * u);
+      // set upper constraints for alcohol, can't get more in total
+      // sum_{i} alcohol(w_i->stad_j) <= 100 * u_j
+      // (factor 100 because pure alcohol is in percent)
+      long ai = warehouses[i].a;
+      lp.set_a(i * m + j, n + j, ai);
+      lp.set_b(n + j, 100 * u);
+
       // supply == demand
-      lp.set_a(i * m + j, n + 3 * j + 1, -1);
-      lp.set_b(n + 3 * j + 1, -d);
-      lp.set_a(i * m + j, n + 3 * j + 2, 1);
-      lp.set_b(n + 3 * j + 2, d);
+      lp.set_a(i * m + j, n + m + j, 1);
+      lp.set_b(n + m + j, d);
+      lp.set_a(i * m + j, n + 2 * m + j, -1);
+      lp.set_b(n + 2 * m + j, -d);
     }
   }
   
-  vector<int> r(n * m);
+  std::vector<std::vector<int>> revs(n, std::vector<int>(m, 0));
   for(int i = 0; i < n; i++) {
     for(int j = 0; j < m; j++) {
-      int r_ws; std::cin >> r_ws;
-      r[i * m + j] = r_ws;
+      int rws;
+      std::cin >> rws;
+      revs[i][j] = rws;
+      // for testsets 1/2
+      // lp.set_c(i * m + j, -rws);
     }
   }
-  
-  //////////////////////////////////// 
-  
+
   
   Triangulation t;
-  t.insert(pts.begin(), pts.end());
-  
-  vector<tuple<long,long,long>> contours;
-  contours.reserve(100); // according to assumptions that's enough
+  t.insert(points.begin(), points.end());
+
+  std::vector<std::pair<K::Point_2, long>> contours;
+  contours.reserve(100); // assumptions for last test case has this true
+
   for(int i = 0; i < c; i++) {
-    int x, y, r;
+    int x, y; long r;
     std::cin >> x >> y >> r;
-    K::Point_2 p = K::Point_2(x,y);
-    auto v = t.nearest_vertex(p);
-    auto dist = CGAL::squared_distance(v->point(), p);
-    
+    auto p = K::Point_2(x,y);
+    auto dist = CGAL::squared_distance(p, t.nearest_vertex(p)->point());
     if(dist < r * r) {
-      contours.push_back({x,y,r * r});
+      contours.push_back({p, r * r});
     }
   }
   
-  cerr << contours.size() << endl;
   for(int i = 0; i < n; i++) {
-    K::Point_2 wareho = K::Point_2(get<0>(warehouse[i]), get<1>(warehouse[i]));
     for(int j = 0; j < m; j++) {
-      K::Point_2 stad = K::Point_2(get<0>(stadium[j]), get<1>(stadium[j]));
-      int t_ws = 0;
-      for(auto cont : contours) {
-        K::Point_2 cp = K::Point_2(get<0>(cont), get<1>(cont));
-        auto d1 = CGAL::squared_distance(wareho, cp) < get<2>(cont);
-        auto d2 = CGAL::squared_distance(stad, cp) < get<2>(cont);
-        if((d1 && !d2) || (!d1 && d2)) { // only traverse if only one is inside; we know they do cross only once
-          t_ws++;
-        }
+      auto p_w = K::Point_2(warehouses[i].x, warehouses[i].y);
+      auto p_s = K::Point_2(stadiums[j].x, stadiums[j].y);
+      int num_contours = 0;
+      for(auto cp : contours) {
+        double dist_w = CGAL::squared_distance(p_w, cp.first);
+        double dist_s = CGAL::squared_distance(p_s, cp.first);
+        bool inside_w = (dist_w < cp.second);
+        bool inside_s = (dist_s < cp.second);
+        if((!inside_s && inside_w) || (inside_s && !inside_w))
+          num_contours++;
       }
-      lp.set_c(i * m + j, -100 * r[i * m + j] + t_ws);
+      lp.set_c(i * m + j, -100 * revs[i][j] + num_contours);
     }
   }
-  
-  
-  //////////////////////////////////// solve
-  Solution sol = CGAL::solve_linear_program(lp, ET());
-  // cerr << sol << endl;
-  
-  if(sol.is_infeasible()) {
-    cout << "RIOT!" << endl;
+
+  Solution s = CGAL::solve_linear_program(lp, ET());
+  if(s.is_infeasible()) {
+    std::cout << "RIOT!" << std::endl;
     return;
   } else {
-    auto val = sol.objective_value();
-    cout << floor_to_int(-val / 100) << endl;
+    auto val = s.objective_value();
+    std::cout << floor_to_long(-val / 100) << std::endl;
   }
-  
 }
 
-int main() {
-  std::ios_base::sync_with_stdio(false); // Always!
-  int t; cin >> t;
-  while(t--) testcase();
+int main()
+{
+  std::ios_base::sync_with_stdio(false);
+  std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(0);
+  std::size_t t;
+  for (std::cin >> t; t > 0; --t)
+    testcase();
+  return 0;
 }
