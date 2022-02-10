@@ -107,20 +107,18 @@ void testcase() {
         adder.add_edge(map_to_g[i].at(max_arrival), v_sink, total_cars, 0);
         // time 0 to first time
         if(timestamps_per_s[i].size() > 0) {
-            long min_ti = *timestamps_per_s[i].begin();
-            adder.add_edge(map_to_g[i].at(0), map_to_g[i].at(min_ti), total_cars, min_ti * max_p);
-            // second to last to max time
-            long max_ti = *timestamps_per_s[i].rbegin();
-            adder.add_edge(map_to_g[i].at(max_ti), map_to_g[i].at(max_arrival), total_cars, (max_arrival - max_ti) * max_p);
-            auto t2 = timestamps_per_s[i].begin();
-            auto t1 = t2++;
+            auto t1 = timestamps_per_s[i].begin();
+            // zero to first time
+            adder.add_edge(map_to_g[i].at(0), map_to_g[i].at(*t1), total_cars, *t1 * max_p);
+            auto t2 = timestamps_per_s[i].begin(); t2++;
             for(; t2 != timestamps_per_s[i].end(); t1++, t2++) {
                 adder.add_edge(map_to_g[i].at(*t1), map_to_g[i].at(*t2), total_cars, (*t2 - *t1) * max_p);
             }
+            // second to last to max time
+            adder.add_edge(map_to_g[i].at(*t1), map_to_g[i].at(max_arrival), total_cars, (max_arrival - *t1) * max_p);
         } else {
             adder.add_edge(map_to_g[i].at(0), map_to_g[i].at(max_arrival), total_cars, (max_arrival) * max_p);
         }
-        
     }
 
     boost::successive_shortest_path_nonnegative_weights(G, v_source, v_sink);
